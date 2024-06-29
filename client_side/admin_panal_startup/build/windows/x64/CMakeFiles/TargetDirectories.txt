@@ -1,0 +1,13 @@
+F:/project/ecommerce/ecom_startup_code/client_side/admin_panal_startup/build/windows/x64/CMakeFiles/INSTALL.dir
+F:/project/ecommerce/ecom_startup_code/client_side/admin_panal_startup/build/windows/x64/CMakeFiles/ALL_BUILD.dir
+F:/project/ecommerce/ecom_startup_code/client_side/admin_panal_startup/build/windows/x64/CMakeFiles/ZERO_CHECK.dir
+F:/project/ecommerce/ecom_startup_code/client_side/admin_panal_startup/build/windows/x64/flutter/CMakeFiles/flutter_wrapper_plugin.dir
+F:/project/ecommerce/ecom_startup_code/client_side/admin_panal_startup/build/windows/x64/flutter/CMakeFiles/flutter_wrapper_app.dir
+F:/project/ecommerce/ecom_startup_code/client_side/admin_panal_startup/build/windows/x64/flutter/CMakeFiles/flutter_assemble.dir
+F:/project/ecommerce/ecom_startup_code/client_side/admin_panal_startup/build/windows/x64/flutter/CMakeFiles/INSTALL.dir
+F:/project/ecommerce/ecom_startup_code/client_side/admin_panal_startup/build/windows/x64/runner/CMakeFiles/FAP.dir
+F:/project/ecommerce/ecom_startup_code/client_side/admin_panal_startup/build/windows/x64/runner/CMakeFiles/INSTALL.dir
+F:/project/ecommerce/ecom_startup_code/client_side/admin_panal_startup/build/windows/x64/runner/CMakeFiles/ALL_BUILD.dir
+F:/project/ecommerce/ecom_startup_code/client_side/admin_panal_startup/build/windows/x64/plugins/file_selector_windows/CMakeFiles/file_selector_windows_plugin.dir
+F:/project/ecommerce/ecom_startup_code/client_side/admin_panal_startup/build/windows/x64/plugins/file_selector_windows/CMakeFiles/INSTALL.dir
+F:/project/ecommerce/ecom_startup_code/client_side/admin_panal_startup/build/windows/x64/plugins/file_selector_windows/CMakeFiles/ALL_BUILD.dir

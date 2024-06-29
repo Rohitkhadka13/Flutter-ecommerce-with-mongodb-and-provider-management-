@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="F:\project\ecommerce\ecom_startup_code\client_side\admin_panal_startup\build\windows\x64\CMakeFiles\9c19446708db48858b905c89f29d96cb\INSTALL_force.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{D48734C3-9AE8-3A12-9045-20D455B0BCF5}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
