@@ -65,6 +65,8 @@ class DataProvider extends ChangeNotifier {
     getAllCategory();
     getAllSubCategory();
     getAllBrands();
+    getAllVariantType();
+    getAllVariant();
   }
 
   // getAllCategory
@@ -178,13 +180,78 @@ class DataProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  //TODO: should complete getAllVariantType
+  // getAllVariantType
+  Future<List<VariantType>> getAllVariantType({bool showSnack = false}) async {
+    try {
+      Response response = await service.getItems(endpointUrl: 'variantTypes');
+      if (response.isOk) {
+        ApiResponse<List<VariantType>> apiResponse =
+            ApiResponse<List<VariantType>>.fromJson(
+                response.body,
+                (json) => (json as List)
+                    .map((item) => VariantType.fromJson(item))
+                    .toList());
+        _allVariantTypes = apiResponse.data ?? [];
+        _filteredVariantTypes = List.from(_allVariantTypes);
+        notifyListeners();
+        if (showSnack) SnackBarHelper.showSuccessSnackBar(apiResponse.message);
+        return _filteredVariantTypes;
+      }
+    } catch (e) {
+      if (showSnack) SnackBarHelper.showErrorSnackBar(e.toString());
+      rethrow;
+    }
+    return _filteredVariantTypes;
+  }
 
-  //TODO: should complete filterVariantTypes
+  // filterVariantTypes
+  void filterVariantTypes(String keyword) {
+    if (keyword.isEmpty) {
+      _filteredVariantTypes = List.from(_allVariantTypes);
+    } else {
+      final lowerKeyword = keyword.toLowerCase();
+      _filteredVariantTypes = _allVariantTypes.where((variantType) {
+        return (variantType.name ?? '').toLowerCase().contains(lowerKeyword);
+      }).toList();
+    }
+    notifyListeners();
+  }
 
-  //TODO: should complete getAllVariant
+  //getAllVariant
+  Future<List<Variant>> getAllVariant({bool showSnack = false}) async {
+    try {
+      Response response = await service.getItems(endpointUrl: 'variants');
+      if (response.isOk) {
+        ApiResponse<List<Variant>> apiResponse =
+            ApiResponse<List<Variant>>.fromJson(
+          response.body,
+          (json) =>
+              (json as List).map((item) => Variant.fromJson(item)).toList(),
+        );
+        _allVariants = apiResponse.data ?? [];
+        _filteredVariants = List.from(_allVariants);
+        notifyListeners();
+        if (showSnack) SnackBarHelper.showSuccessSnackBar(apiResponse.message);
+      }
+    } catch (e) {
+      if (showSnack) SnackBarHelper.showErrorSnackBar(e.toString());
+      rethrow;
+    }
+    return _filteredVariants;
+  }
 
-  //TODO: should complete filterVariants
+  //filterVariants
+  void filterVariants(String keyword) {
+    if (keyword.isEmpty) {
+      _filteredVariants = List.from(_allVariants);
+    } else {
+      final lowerKeyword = keyword.toLowerCase();
+      _filteredVariants = _allVariants.where((variant) {
+        return (variant.name ?? '').toLowerCase().contains(lowerKeyword);
+      }).toList();
+    }
+    notifyListeners();
+  }
 
   //TODO: should complete getAllProduct
 
