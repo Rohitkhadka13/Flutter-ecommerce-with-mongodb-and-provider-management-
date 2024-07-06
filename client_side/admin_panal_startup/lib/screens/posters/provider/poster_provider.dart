@@ -1,4 +1,8 @@
+import 'dart:developer';
 import 'dart:io';
+import 'package:admin/models/api_response.dart';
+import 'package:admin/utility/snack_bar_helper.dart';
+
 import '../../../services/http_services.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart' hide Category;
@@ -16,21 +20,92 @@ class PosterProvider extends ChangeNotifier {
   TextEditingController posterNameCtrl = TextEditingController();
   Poster? posterForUpdate;
 
-
   File? selectedImage;
   XFile? imgXFile;
 
-
   PosterProvider(this._dataProvider);
 
-  //TODO: should complete addPoster
+  //addPoster
+  addPoster() async {
+    try {
+      if (selectedImage == null) {
+        SnackBarHelper.showErrorSnackBar('Please Select an image');
+        return;
+      }
+      Map<String, dynamic> formDataMap = {
+        'posterName': posterNameCtrl.text,
+        'image': 'no_data'
+      };
+      final FormData form =
+          await createFormData(imgXFile: imgXFile, formData: formDataMap);
+      final response =
+          await service.addItem(endpointUrl: 'posters', itemData: form);
+      if (response.isOk) {
+        ApiResponse apiResponse = ApiResponse.fromJson(response.body, null);
+        if (apiResponse.success == true) {
+          clearFields();
+          SnackBarHelper.showSuccessSnackBar('${apiResponse.message}');
+          log('Posters Added');
+          _dataProvider.getAllPosters();
+        } else {
+          SnackBarHelper.showErrorSnackBar(
+              "Failed to Add Posters ${apiResponse.message}");
+        }
+      } else {
+        SnackBarHelper.showErrorSnackBar(
+            'Error ${response.body?['message'] ?? response.statusText}');
+      }
+    } catch (e) {
+      print(e);
+      SnackBarHelper.showErrorSnackBar('An error occured $e');
+      rethrow;
+    }
+  }
 
+  //updatePoster
+  updatePoster() async {
+    try {
+      Map<String, dynamic> formDataMap = {
+        'posterName': posterNameCtrl.text,
+        'image': posterForUpdate?.imageUrl ?? '',
+      };
 
-  //TODO: should complete updatePoster
+      final FormData form =
+          await createFormData(imgXFile: imgXFile, formData: formDataMap);
+      final response = await service.updateItem(
+          endpointUrl: 'posters',
+          itemId: posterForUpdate?.sId ?? '',
+          itemData: form);
+      if (response.isOk) {
+        ApiResponse apiResponse = ApiResponse.fromJson(response.body, null);
+        if (apiResponse.success == true) {
+          clearFields();
+          SnackBarHelper.showSuccessSnackBar('${apiResponse.message}');
+          log('poster updated');
+          _dataProvider.getAllPosters();
+        } else {
+          SnackBarHelper.showErrorSnackBar(
+              "Failed to update Posters ${apiResponse.message}");
+        }
+      } else {
+        SnackBarHelper.showErrorSnackBar(
+            'Error ${response.body?['message'] ?? response.statusText}');
+      }
+    } catch (e) {
+      print(e);
+      SnackBarHelper.showErrorSnackBar('An error occured $e');
+      rethrow;
+    }
+  }
 
-
-  //TODO: should complete submitPoster
-
+  //submitPoster
+  submitPoster() {
+    if (posterForUpdate != null) {
+      updatePoster();
+    } else {
+      addPoster();
+    }
+  }
 
   void pickImage() async {
     final ImagePicker picker = ImagePicker();
@@ -42,9 +117,26 @@ class PosterProvider extends ChangeNotifier {
     }
   }
 
-
-  //TODO: should complete deletePoster
-
+  //deletePoster
+  deletePoster(Poster poster) async {
+    try {
+      Response response = await service.deleteItem(
+          endpointUrl: 'posters', itemId: poster.sId ?? '');
+      if (response.isOk) {
+        ApiResponse apiResponse = ApiResponse.fromJson(response.body, null);
+        if (apiResponse.success == true) {
+          SnackBarHelper.showSuccessSnackBar('Poster Deleted Successfully');
+          _dataProvider.getAllPosters();
+        }
+      } else {
+        SnackBarHelper.showErrorSnackBar(
+            'Error ${response.body?['message'] ?? response.statusText}');
+      }
+    } catch (e) {
+      print(e);
+      rethrow;
+    }
+  }
 
   setDataForUpdatePoster(Poster? poster) {
     if (poster != null) {
@@ -56,7 +148,9 @@ class PosterProvider extends ChangeNotifier {
     }
   }
 
-  Future<FormData> createFormData({required XFile? imgXFile, required Map<String, dynamic> formData}) async {
+  Future<FormData> createFormData(
+      {required XFile? imgXFile,
+      required Map<String, dynamic> formData}) async {
     if (imgXFile != null) {
       MultipartFile multipartFile;
       if (kIsWeb) {
